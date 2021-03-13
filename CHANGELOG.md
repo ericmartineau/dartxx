@@ -1,3 +1,6 @@
+## [0.4.4+2]
+ * Adding tests
+
 ## [0.4.4+1]
  * null-safety
 
