@@ -4,6 +4,8 @@ import 'package:inflection3/inflection3.dart' as inflection;
 import 'package:intl/intl.dart';
 import 'package:recase/recase.dart';
 
+import 'tuple.dart';
+
 const _pluralStopWords = {"info", "information"};
 final wordSeparator = RegExp('[\.\;\, ]');
 final nameSeparator = RegExp('[@\.\; ]');
@@ -38,7 +40,7 @@ extension NumExt on num {
     } else if (i.isIntegral) {
       return i.toInt();
     } else {
-      throw "Number $i could not be safely truncated to an int";
+      throw ArgumentError("Number $i could not be safely truncated to an int");
     }
   }
 
@@ -46,10 +48,25 @@ extension NumExt on num {
     return min(upper.toDouble(), max(low.toDouble(), this.toDouble()));
   }
 
-  double normalize(double end, [double start = 0]) {
+  Tuple<num, num> sort(num other) {
+    return (this > other) ? Tuple(other, this) : Tuple(this, other);
+  }
+
+  double normalize(double end, [double start = 0, int roundTo = 6]) {
+    final tuple = start.sort(end);
+
+    start = tuple.a.toDouble();
+    end = tuple.b.toDouble();
     if (this <= start) return 0;
     if (this >= end) return 1;
-    return (this - start) / (end - start);
+
+    final div = (this - start) / (end - start);
+    return div.roundTo(roundTo);
+  }
+
+  double roundTo([int places = 4]) {
+    final mult = pow(10, places);
+    return ((this * mult).roundToDouble()) / mult;
   }
 
   double notZero([double alt = 0.00001]) {
@@ -72,13 +89,17 @@ extension NumExt on num {
 
 extension NumNullableExt on num? {
   bool get isIntegral {
+    if (this == null) return false;
     return this is int || this?.roundToDouble() == this;
   }
 
-  n atLeast<n extends num>(n atLeast) {
-    if (this == null) return atLeast;
-    if (this! < atLeast) return atLeast;
-    return this as n;
+  num atLeast(num atLeast) {
+    if (this == null) {
+      return atLeast;
+    } else {
+      if (this! < atLeast) return atLeast;
+      return this!;
+    }
   }
 
   bool get isZero => this == 0.0;
@@ -139,12 +160,20 @@ extension ListStringXX on List<String> {
   List<String> whereNotBlank() {
     return [
       for (final str in this)
-        if (str.isNotEmpty) str,
+        if (str.isNotBlank) str,
     ];
   }
 }
 
 extension StringXX on String {
+  bool get isNotBlank {
+    return this.trim().isNotEmpty;
+  }
+
+  bool get isBlank {
+    return this.trim().isEmpty;
+  }
+
   bool get isNumeric => (num.tryParse(this) != null);
 
   String toSnakeCase() => ReCase(this).snakeCase.toLowerCase();
@@ -204,14 +233,22 @@ extension StringXX on String {
     }
 
     final chars = characters is List<String> ? characters : ["$characters"];
-    chars.forEach((c) {
-      if (trimEnd && manipulated.endsWith(c)) {
-        manipulated = manipulated.substring(0, manipulated.length - c.length);
+    int i = 0;
+    while (true && i++ < 30) {
+      bool done = true;
+      for (final c in chars) {
+        if (trimEnd && manipulated.endsWith(c)) {
+          manipulated = manipulated.substring(0, manipulated.length - c.length);
+          done = false;
+        }
+        if (trimStart && manipulated.startsWith(c)) {
+          manipulated = manipulated.substring(1);
+          done = false;
+        }
       }
-      if (trimStart && manipulated.startsWith(c)) {
-        manipulated = manipulated.substring(1);
-      }
-    });
+
+      if (done) break;
+    }
     return manipulated;
   }
 
@@ -227,6 +264,7 @@ extension DateTimeExtensions on DateTime {
       DateTime(this.year, this.month, this.day, 0, 0, 0, 0, 0);
 
   Duration sinceNow() => -(this.difference(DateTime.now()));
+
   int get yearsAgo => daysAgo ~/ 365;
 
   int get monthsAgo => daysAgo ~/ 30.3;
