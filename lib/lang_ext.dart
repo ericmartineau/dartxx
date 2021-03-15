@@ -55,8 +55,8 @@ extension NumExt on num {
   double normalize(double end, [double start = 0, int roundTo = 6]) {
     final tuple = start.sort(end);
 
-    start = tuple.a.toDouble();
-    end = tuple.b.toDouble();
+    start = tuple.first.toDouble();
+    end = tuple.second.toDouble();
     if (this <= start) return 0;
     if (this >= end) return 1;
 
@@ -165,7 +165,14 @@ extension ListStringXX on List<String> {
   }
 }
 
+final typeParameters = RegExp("<(.*)>");
+final newLinesPattern = RegExp("\\n");
+
 extension StringXX on String {
+  String removeNewlines() => removeAll(newLinesPattern);
+
+  String removeAll(Pattern pattern) => this.replaceAll(pattern, "");
+
   bool get isNotBlank {
     return this.trim().isNotEmpty;
   }
@@ -257,6 +264,126 @@ extension StringXX on String {
 
   String trimStart(dynamic characters, {bool trimWhitespace = true}) =>
       trimAround(characters, trimWhitespace: trimWhitespace, trimEnd: false);
+}
+
+extension StringNullableXX on String? {
+  List<String> get words {
+    if (this == null) return const [];
+    return [
+      for (final word in this!.split(wordSeparator))
+        if (word.trim().isNotNullOrBlank) word,
+    ];
+  }
+
+  String ifBlank(String other) {
+    return this.isNullOrBlank ? other : this!;
+  }
+
+  bool get isNotNullOrBlank {
+    return this != null && this!.isNotBlank;
+  }
+
+  bool get isNullOrBlank {
+    return this == null || this!.isBlank;
+  }
+
+  /// Whether the string contains only letters
+  bool get isLettersOnly {
+    if (this.isNullOrBlank) return false;
+    return isLetters.hasMatch(this!);
+  }
+
+  String orEmpty() {
+    return this ?? "";
+  }
+
+  String? get first {
+    if (this?.isNotEmpty == true) return this![0];
+    return null;
+  }
+
+  int toInt() => int.parse(this!);
+
+  int? toIntOrNull() => this == null ? null : int.tryParse(this!);
+
+  double toDouble() => double.parse(this!);
+
+  double? toDoubleOrNull() => this == null ? null : double.tryParse(this!);
+
+  List<String> dotSplit() => this?.split("\.") ?? const [];
+
+  List<String> tokenize({bool splitAll = false, Pattern? splitOn}) {
+    return tokenizeString(this ?? '', splitAll: splitAll, splitOn: splitOn);
+  }
+
+  String? get extension {
+    if (this == null) return null;
+    return "$this".replaceAll(upToLastDot, '');
+  }
+
+  String? charAt(int c) {
+    if (this == null) return null;
+    if (this!.length > c) return this![c];
+    return null;
+  }
+
+  String? toPathName() {
+    if (this == null) return null;
+    if (!this!.startsWith("/")) {
+      return "/$this";
+    } else {
+      return this;
+    }
+  }
+
+  List<String> toStringList() {
+    if (this.isNotNullOrBlank) {
+      return [this!];
+    } else {
+      return const [];
+    }
+  }
+
+  String ifThen(String ifString, String thenString) {
+    if (this == null || this == ifString) return thenString;
+    return this!;
+  }
+
+  String plus(String after) {
+    if (this.isNullOrBlank) return '';
+    return "${this}$after";
+  }
+
+  Uri? toUri() => this == null ? null : Uri.parse(this!);
+
+  String? nullIfBlank() {
+    if (isNullOrBlank) return null;
+    return this;
+  }
+
+  String? join(String? other, [String separator = " "]) {
+    if (this == null && other == null) return null;
+    if (this == null || other == null) return this ?? other;
+    return "${this}$separator$other";
+  }
+
+  String article() {
+    if (this.isNullOrBlank) return "";
+    return this.first!.isVowel ? "an $this" : "a $this";
+  }
+
+  bool get isVowel {
+    switch (this) {
+      case "a":
+      case "e":
+      case "i":
+      case "o":
+      case "u":
+        return true;
+      default:
+        return false;
+    }
+  }
 }
 
 extension DateTimeExtensions on DateTime {
