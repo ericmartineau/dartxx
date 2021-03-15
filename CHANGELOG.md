@@ -1,3 +1,6 @@
+## [0.4.4+5]
+ * Fixing comp error on tets
+
 ## [0.4.4+4]
  * Adding analysis_options.dart
 
