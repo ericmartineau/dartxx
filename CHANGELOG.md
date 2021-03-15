@@ -1,3 +1,6 @@
+## [0.4.4+3]
+ * Adding some extensions
+
 ## [0.4.4+2]
  * Adding tests
 
