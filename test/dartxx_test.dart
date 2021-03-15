@@ -66,7 +66,7 @@ void testMapExt() {
     Map<String, dynamic> map = {
       'empty': null,
       'null': nullString,
-      'blank': '    ' as String?,
+      'blank': '    ',
       'With stuff': 'Hey, George',
       'not-string': ["1", "2", "3"],
     };
