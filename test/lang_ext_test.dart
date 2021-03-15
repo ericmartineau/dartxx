@@ -91,15 +91,15 @@ void main() {
   test("num.sorted", () {
     final coerced = 12.sort(11.0);
 
-    expect(coerced.a, equals(11.0));
-    expect(coerced.b, equals(12));
+    expect(coerced.first, equals(11.0));
+    expect(coerced.second, equals(12));
   });
 
   test("num.sorted rev", () {
     final coerced = 11.sort(12.4);
 
-    expect(coerced.a, equals(11.0));
-    expect(coerced.b, equals(12.4));
+    expect(coerced.first, equals(11.0));
+    expect(coerced.second, equals(12.4));
   });
 
   test("num.notZero", () {
