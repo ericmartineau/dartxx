@@ -1,3 +1,6 @@
+## [0.4.4+4]
+ * Adding analysis_options.dart
+
 ## [0.4.4+3]
  * Adding some extensions
 
