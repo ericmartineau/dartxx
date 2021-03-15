@@ -1,3 +1,6 @@
+## [0.4.4+6]
+ * Adding extensions
+
 ## [0.4.4+5]
  * Fixing comp error on tets
 
