@@ -21,7 +21,7 @@ class _Numbers {
   }
 }
 
-extension NumExt on num {
+extension NumXX on num {
   String formatCurrency() => currencyFormat.format(this);
 
   String formatCompact() => compactFormat.format(this);
@@ -87,7 +87,7 @@ extension NumExt on num {
   }
 }
 
-extension NumNullableExt on num? {
+extension NumXXNullable on num? {
   bool get isIntegral {
     if (this == null) return false;
     return this is int || this?.roundToDouble() == this;
@@ -386,7 +386,7 @@ extension StringNullableXX on String? {
   }
 }
 
-extension DateTimeExtensions on DateTime {
+extension DateTimeXX on DateTime {
   DateTime withoutTime() =>
       DateTime(this.year, this.month, this.day, 0, 0, 0, 0, 0);
 
@@ -423,7 +423,7 @@ extension DateTimeExtensions on DateTime {
   }
 }
 
-extension DateTimeNullableExtensions on DateTime? {
+extension DateTimeNullableXX on DateTime? {
   /// Returns how much time has elapsed since this date.  If the date is null
   /// or in the future, then [Duration.zero] will be returned
   Duration get elapsed {
