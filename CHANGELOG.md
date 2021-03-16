@@ -1,3 +1,8 @@
+## [0.4.5-nullsafety.1]
+ * Pre-release
+Gemfile.local
+Fixed name overlap
+
 ## [0.4.4+6]
  * Adding extensions
 
