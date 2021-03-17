@@ -24,7 +24,7 @@ extension NullIterXX<V> on Iterable<V>? {
     return this!;
   }
 
-  V? get firstOrNull {
+  V? get tryFirst {
     return (this == null)
         ? null
         : this!.isEmpty
