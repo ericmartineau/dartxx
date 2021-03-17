@@ -1,3 +1,6 @@
+## [0.4.5-nullsafety.2]
+ * initial checkin
+
 ## [0.4.5-nullsafety.1]
  * Pre-release
 Gemfile.local
