@@ -20,7 +20,13 @@ extension IterationPositionExtensions on IterationPosition {
       this == IterationPosition.first || this == IterationPosition.only;
 }
 
-extension IterXX<T extends Object> on Iterable<T> {
+extension IterObjXX<T extends Object> on Iterable<T> {}
+
+extension IterDynXX<T> on Iterable<T> {
+  Iterable<ListIndex<T>> indexed() {
+    return this.mapIndexed(((T item, int idx) => ListIndex<T>(idx, item)));
+  }
+
   List<T> freeze() {
     return List.unmodifiable(this);
   }
@@ -324,8 +330,23 @@ extension IterIterXX<V> on Iterable<Iterable<V>> {
   }
 }
 
-extension IterableMapEntry<K, V> on Iterable<MapEntry<K, V>> {
+extension IterMapEntryXX<K, V> on Iterable<MapEntry<K, V>> {
   Map<K, V> toMap() {
     return Map.fromEntries(this);
   }
+
+  Map<K, List<V>> groupByKey() {
+    Map<K, List<V>> results = {};
+    this.forEach((e) {
+      results.putIfAbsent(e.key, () => <V>[]).add(e.value);
+    });
+    return results;
+  }
+}
+
+class ListIndex<T> {
+  final int index;
+  final T value;
+
+  const ListIndex(this.index, this.value);
 }
