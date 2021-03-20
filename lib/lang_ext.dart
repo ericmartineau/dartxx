@@ -21,6 +21,20 @@ class _Numbers {
   }
 }
 
+extension TypeExtensions on Type {
+  String get name => "$this"
+      .trimAround("_")
+      .replaceAllMapped(
+          typeParameters, (match) => "[${match.group(1)!.uncapitalize()}]")
+      .uncapitalize();
+
+  String get simpleName => simpleNameOfType(this);
+}
+
+String simpleNameOfType(Type type) {
+  return "$type".replaceAll(typeParameters, '').trimStart("_").uncapitalize();
+}
+
 extension NumXX on num {
   String formatCurrency() => currencyFormat.format(this);
 

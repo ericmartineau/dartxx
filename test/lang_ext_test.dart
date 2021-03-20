@@ -38,6 +38,16 @@ void main() {
         equals("Eric Martineau Jones"));
   });
 
+  test("Type.simpleName()", () {
+    final list = <String>[];
+    expect(list.runtimeType.simpleName, equals("list"));
+  });
+
+  test("Type.simpleName()", () {
+    final list = <String, num>{};
+    expect(list.runtimeType.simpleName, equals("internalLinkedHashMap"));
+  });
+
   test("num.repeat", () {
     var count = 0;
 
