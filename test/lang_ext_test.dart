@@ -1,4 +1,5 @@
 import 'package:dartxx/dartxx.dart';
+import 'package:dartxx/lang_ext.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 
@@ -9,9 +10,32 @@ void main() {
     expect(formatted, equals("\$34.23"));
   });
 
+  test("tokenizeString(null)", () {
+    expect(tokenizeString(null), equals([]));
+  });
+
+  test("tokenizeString()", () {
+    expect(tokenizeString("Eric.Martineau", splitAll: true).toLowerCase(),
+        equals(["eric", "martineau"]));
+    expect(tokenizeString("1, 2, 3, 4", splitAll: true),
+        equals(["1", '2', '3', '4']));
+  });
+
   test("num.FormatCompact", () {
     final formatted = 12345543134.234.formatCompact();
     expect(formatted, equals("12.3 billion"));
+  });
+
+  test("String.isBlank", () {
+    expect(" ".isBlank, isTrue);
+    expect("\t".isBlank, isTrue);
+    expect("\t\n".isBlank, isTrue);
+    expect("\tt\n".isBlank, isFalse);
+  });
+
+  test("String.removeNewlines()", () {
+    expect("Eric\n Martineau\n Jones".removeNewlines(),
+        equals("Eric Martineau Jones"));
   });
 
   test("num.repeat", () {

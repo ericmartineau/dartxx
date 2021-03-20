@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:inflection3/inflection3.dart' as inflection;
 import 'package:intl/intl.dart';
 import 'package:recase/recase.dart';
-
+import 'tokenizer.dart';
 import 'tuple.dart';
 
 const _pluralStopWords = {"info", "information"};
@@ -141,27 +141,32 @@ final currencyFormat = NumberFormat.simpleCurrency();
 final compactFormat = NumberFormat.compactLong();
 
 List<String> tokenizeString(String? input,
-    {bool splitAll = false, Pattern? splitOn}) {
+    {bool splitAll = false, Tokenizer? tokenizer}) {
   if (input == null) return [];
-  splitOn ??=
-      (splitAll == true) ? aggresiveTokenizerPattern : spaceTokenizerPattern;
-  return input.toSnakeCase().split(splitOn).whereNotBlank();
+  tokenizer ??= (splitAll == true) ? aggresiveTokenizer : spaceTokenizer;
+  return tokenizer
+      .tokenize(input)
+      .map((t) => t.toString())
+      .toList()
+      .whereNotBlank();
 }
 
 final upToLastDot = RegExp('.*\\.');
-const aggresiveTokenizer = "(,|\\/|_|\\.|-|\\s)";
-final aggresiveTokenizerPattern = RegExp(aggresiveTokenizer);
+final aggresiveTokenizer =
+    Tokenizer(delimiters: {",", "/", "_", '.', '-', ' ', '\t', '\n'});
 
-const spaceTokenizer = "(\s)";
-final spaceTokenizerPattern = RegExp(spaceTokenizer);
-enum IterationPosition { only, first, middle, last }
+final spaceTokenizer = Tokenizer();
 
-extension ListStringXX on List<String> {
+extension ListStringXX on Iterable<String> {
   List<String> whereNotBlank() {
     return [
       for (final str in this)
         if (str.isNotBlank) str,
     ];
+  }
+
+  Iterable<String> toLowerCase() {
+    return map((s) => s.toLowerCase());
   }
 }
 
@@ -312,8 +317,8 @@ extension StringNullableXX on String? {
 
   List<String> dotSplit() => this?.split("\.") ?? const [];
 
-  List<String> tokenize({bool splitAll = false, Pattern? splitOn}) {
-    return tokenizeString(this ?? '', splitAll: splitAll, splitOn: splitOn);
+  List<String> tokenize({bool splitAll = false, Tokenizer? tokenizer}) {
+    return tokenizeString(this ?? '', splitAll: splitAll, tokenizer: tokenizer);
   }
 
   String? get extension {
