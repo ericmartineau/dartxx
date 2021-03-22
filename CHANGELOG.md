@@ -1,3 +1,6 @@
+## [0.5.0+2]
+ * Minor version bump
+
 ## [0.5.0+1]
  * Bump minor
 
