@@ -226,6 +226,12 @@ extension NullListXX<V> on List<V>? {
     if (this == null) return const [];
     return this!;
   }
+
+  V? tryGet(int index) {
+    if (this == null) return null;
+    if (index >= this!.length) return null;
+    return this![index];
+  }
 }
 
 extension NullSetXX<V> on Set<V>? {
@@ -247,15 +253,15 @@ extension IterOfNullableXX<V> on Iterable<V?> {
     };
   }
 
-  Iterable<V> notNullList() {
+  List<V> notNullList() {
     return <V>[...notNull()];
   }
 
-  List<R> mapNotNull<R extends Object>(R mapper(V from)) {
-    return <R>[
+  List<R> mapNotNull<R extends Object>(R? mapper(V from)) {
+    return [
       for (var i in this)
         if (i != null) mapper(i),
-    ];
+    ].notNullList();
   }
 }
 

@@ -1,7 +1,5 @@
 import 'package:dartxx/dartxx.dart';
-import 'package:dartxx/lang_ext.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:intl/intl.dart';
 
 void main() {
   group("TupleTest", () {
