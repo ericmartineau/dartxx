@@ -124,7 +124,7 @@ extension IterDynXX<T> on Iterable<T> {
     }
   }
 
-  void forEachIndexed<R>(R mapper(T? item, int index)) {
+  void forEachIndexed<R>(R mapper(T item, int index)) {
     int i = 0;
 
     for (final x in this) {
