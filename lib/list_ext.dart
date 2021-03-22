@@ -184,6 +184,11 @@ extension IterDynXX<T> on Iterable<T> {
     if (this.isEmpty) return ifEmpty;
     return this.first;
   }
+
+  T? lastOr([T? ifEmpty]) {
+    if (this.isEmpty) return ifEmpty;
+    return this.last;
+  }
 }
 
 extension NullIterXX<V> on Iterable<V>? {
