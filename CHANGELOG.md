@@ -1,3 +1,6 @@
+## [0.5.0+1]
+ * Bump minor
+
 ## [0.4.5-nullsafety.8]
  * Adding lastOr
 
