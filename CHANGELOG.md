@@ -1,3 +1,6 @@
+## [0.4.5-nullsafety.7]
+ * Fixing wrong parameter for closure
+
 ## [0.4.5-nullsafety.6]
  * more ext
 
