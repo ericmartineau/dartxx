@@ -1,3 +1,6 @@
+## [0.4.5-nullsafety.8]
+ * Adding lastOr
+
 ## [0.4.5-nullsafety.7]
  * Fixing wrong parameter for closure
 
