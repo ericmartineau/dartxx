@@ -1,0 +1,118 @@
+name: artists
+version: 1.0.0+5
+publish_to: none
+description: A new Flutter project.
+environment: 
+  sdk: '>=2.12.0 <3.0.0'
+dependencies: 
+  assorted_layout_widgets: ^4.0.8
+  beamer: ^0.12.4
+  cached_network_image: ^3.0.0
+  google_fonts: ^2.0.0
+  just_audio: ^0.7.4+1
+  auto_size_text: ^3.0.0-nullsafety.0
+  flutter_platform_widgets: ^1.7.1
+  flutter_screen_scaling: ^3.3.2+3
+  modal_bottom_sheet: ^2.0.0
+  cupertino_icons: ^1.0.3
+  provider: ^5.0.0
+  responsive_builder: ^0.4.1
+  equatable: ^2.0.0
+  dartx: ^0.7.1
+  dartxx: ^0.5.0+2
+  flexidate: ^0.5.0+1
+  intl: ^0.17.0
+  firebase_core: ^1.1.1
+  firebase_analytics: ^8.0.4
+  firebase_crashlytics: ^2.0.3
+  marquee: ^2.1.0
+  sunny_kiwi: ^0.3.0+1
+  overlay_support: ^1.2.1
+  logging_config: ^0.6.7+6
+  logging: ^1.0.1
+  firebase_auth: ^1.1.4
+  expandable_bottom_bar_new: ^2.0.0-nullsafety.1
+  photo_view: ^0.11.1
+  sunny_fluro: ^1.8.0+3
+  sunny_core_widgets: ^0.2.0+7
+  sunny_lifecycle: ^0.4.4+8
+  sunny_essentials: ^0.6.0+1
+  sunny_forms: ^0.5.0+4
+  sunny_service_stubs: ^0.3.0+1
+  sunny_sdk_core: ^2.0.0+4
+  timeago: ^3.0.2
+  url_launcher: ^6.0.2
+  launchers: ^0.5.6-nullsafety.1
+  video_player: ^2.1.1
+  font_awesome_flutter: ^9.0.0
+  rxdart: ^0.26.0
+  audio_session: ^0.1.0
+  sqflite: ^2.0.0+3
+  percent_indicator: ^3.3.0-nullsafety.1
+  audio_service: ^0.17.0
+  waterfall_flow: ^3.0.1
+  flutter: 
+    sdk: flutter
+dev_dependencies: 
+  flutter_launcher_icons: ^0.9.0
+  flutter_test: 
+    sdk: flutter
+  flutter_native_splash: 
+    path: ../local_plugins/flutter_native_splash
+dependency_overrides:
+  timezone: ^0.7.0-nullsafety.0
+  flutter_screen_scaling: ^3.3.2+3
+  flutter_isolate: 
+    path: ../local_plugins/flutter_isolate
+  firebase_analytics: 
+    path: ./fake_analytics
+  launchers: 
+    path: ../local_plugins/launchers
+  firebase_analytics_web: 
+    path: ./fake_analytics_web
+  sqflite: 
+    git: 
+      url: https://github.com/ericmartineau/sqflite.git
+      path: sqflite
+  worker_service: 
+    path: ../local_plugins/worker_service
+  sunny_sdk_core: 
+    path: ../local_plugins/sunny_sdk_core
+  audio_service: 
+    path: ../local_plugins/audio_service/audio_service
+  audio_service_platform_interface: 
+    path: ../local_plugins/audio_service/audio_service_platform_interface
+  audio_service_web: 
+    path: ../local_plugins/audio_service/audio_service_web
+  sunny_essentials: 
+    path: ../local_plugins/sunny_essentials
+  just_audio: 
+    path: ../local_plugins/just_audio/just_audio
+  just_audio_platform_interface: 
+    path: ../local_plugins/just_audio/just_audio_platform_interface
+  just_audio_web: 
+    path: ../local_plugins/just_audio/just_audio_web
+  dartxx: 
+    path: ../local_plugins/dartxx
+  sunny_fluro: 
+    path: ../local_plugins/sunny_fluro
+  sunny_dart: 
+    path: ../local_plugins/sunny_dart
+  sunny_lifecycle: 
+    path: ../local_plugins/sunny_lifecycle
+flutter: 
+  assets: 
+    - packages/timezone/data/latest.tzf
+    - assets/images/
+    - assets/icon/
+  uses-material-design: true
+flutter_icons: 
+  android: launcher_icon
+  image_path: assets/icon/RevelryLogo@3x.png
+  adaptive_icon_background: '#000000'
+  adaptive_icon_foreground: assets/icon/RevelryLogoAndroid@3x.png
+  ios: true
+flutter_native_splash: 
+  image: assets/images/RevelrySplash@2x.png
+  color: 0
+  android_disable_fullscreen: false
