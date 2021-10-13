@@ -7,11 +7,9 @@ dependencies:
   equatable: ^2.0.0
   inflection3: ^0.5.3+1
   intl: ^0.17.0
-  recase: ^4.0.0-nullsafety.0
+  recase: ^4.0.0
 dev_dependencies: 
   flutter_test:
     sdk: flutter
   pedantic: ^1.11.0
-  test_api: ^0.3.0
-dependency_overrides:
   test_api: ^0.3.0
