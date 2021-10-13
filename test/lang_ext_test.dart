@@ -1,7 +1,7 @@
 import 'package:dartxx/dartxx.dart';
 import 'package:dartxx/lang_ext.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
+import 'package:test/test.dart';
 
 void main() {
   // extension NumExt on num {
@@ -15,10 +15,8 @@ void main() {
   });
 
   test("tokenizeString()", () {
-    expect(tokenizeString("Eric.Martineau", splitAll: true).toLowerCase(),
-        equals(["eric", "martineau"]));
-    expect(tokenizeString("1, 2, 3, 4", splitAll: true),
-        equals(["1", '2', '3', '4']));
+    expect(tokenizeString("Eric.Martineau", splitAll: true).toLowerCase(), equals(["eric", "martineau"]));
+    expect(tokenizeString("1, 2, 3, 4", splitAll: true), equals(["1", '2', '3', '4']));
   });
 
   test("num.FormatCompact", () {
@@ -34,8 +32,7 @@ void main() {
   });
 
   test("String.removeNewlines()", () {
-    expect("Eric\n Martineau\n Jones".removeNewlines(),
-        equals("Eric Martineau Jones"));
+    expect("Eric\n Martineau\n Jones".removeNewlines(), equals("Eric Martineau Jones"));
   });
 
   test("Type.simpleName()", () {
@@ -150,8 +147,7 @@ void main() {
   });
 
   test("num.formatBytes custom", () {
-    expect(12345678910.formatBytes(formatBytes: (v, p) => "${v.roundTo(2)}^$p"),
-        equals("11.5^3"));
+    expect(12345678910.formatBytes(formatBytes: (v, p) => "${v.roundTo(2)}^$p"), equals("11.5^3"));
   });
   test("num.isIntegral null", () {
     expect(null.isIntegral, isFalse);
@@ -216,9 +212,7 @@ void main() {
   });
 
   test("num.formatNumber double", () {
-    expect(
-        (34543123.455524321).formatNumber(using: NumberFormat.decimalPattern()),
-        equals("34,543,123.456"));
+    expect((34543123.455524321).formatNumber(using: NumberFormat.decimalPattern()), equals("34,543,123.456"));
   });
 
   test("num.times null", () {
@@ -243,8 +237,7 @@ void main() {
   });
 
   test("list<String>.whereNotBlank", () {
-    expect(["Bob", "   ", "\t", "  the ", "\n\t", "Builder"].whereNotBlank(),
-        containsAllInOrder(["Bob", "  the ", "Builder"]));
+    expect(["Bob", "   ", "\t", "  the ", "\n\t", "Builder"].whereNotBlank(), containsAllInOrder(["Bob", "  the ", "Builder"]));
   });
 
   test("string.isNumeric", () {
@@ -333,42 +326,28 @@ void main() {
 
   test("string.pluralize", () => expect("dog".pluralize(1), equals("dog")));
   test("string.pluralize", () => expect("dog".pluralize(2), equals("dogs")));
-  test(
-      "string.uncapitalize", () => expect("Dog".uncapitalize(), equals("dog")));
+  test("string.uncapitalize", () => expect("Dog".uncapitalize(), equals("dog")));
   test("string.capitalize", () => expect("dog".capitalize(), equals("Dog")));
-  test("string.trimAround",
-      () => expect("--dog--".trimAround("-"), equals("dog")));
-  test("string.trimAround array",
-      () => expect("-=dog=-".trimAround(["-", "="]), equals("dog")));
+  test("string.trimAround", () => expect("--dog--".trimAround("-"), equals("dog")));
+  test("string.trimAround array", () => expect("-=dog=-".trimAround(["-", "="]), equals("dog")));
 
   final parsedDate = DateTime.parse("2010-12-23T13:45:14.1234Z");
 
-  test(
-      "dateTime.withoutTime",
-      () => expect(parsedDate.withoutTime().toIso8601String(),
-          equals("2010-12-23T00:00:00.000")));
+  test("dateTime.withoutTime", () => expect(parsedDate.withoutTime().toIso8601String(), equals("2010-12-23T00:00:00.000")));
 
   final oneYearAgo = DateTime.now().subtract(Duration(days: 368));
-  test("dateTime.sinceNow()",
-      () => expect(DateTime.now().sinceNow().inMilliseconds, lessThan(2000)));
+  test("dateTime.sinceNow()", () => expect(DateTime.now().sinceNow().inMilliseconds, lessThan(2000)));
 
   test("dateTime.yearsAgo", () => expect(oneYearAgo.yearsAgo, equals(1)));
   test("dateTime.monthsAgo", () => expect(oneYearAgo.monthsAgo, equals(12)));
   test("dateTime.daysAgo", () => expect(oneYearAgo.daysAgo, equals(368)));
   test("dateTime.hoursAgo", () => expect(oneYearAgo.hoursAgo, equals(8832)));
   test("dateTime.hasTime", () => expect(oneYearAgo.hasTime, isTrue));
-  test("dateTime.hasTime",
-      () => expect(oneYearAgo.withoutTime().hasTime, isFalse));
+  test("dateTime.hasTime", () => expect(oneYearAgo.withoutTime().hasTime, isFalse));
 
-  test(
-      "dateTime.atTime",
-      () => expect(parsedDate.atTime(8, 3, 30).toIso8601String(),
-          equals("2010-12-23T08:03:30.000")));
+  test("dateTime.atTime", () => expect(parsedDate.atTime(8, 3, 30).toIso8601String(), equals("2010-12-23T08:03:30.000")));
 
-  test(
-      "dateTime.atStartOfDay",
-      () => expect(parsedDate.atStartOfDay().toIso8601String(),
-          equals("2010-12-23T00:00:00.000")));
+  test("dateTime.atStartOfDay", () => expect(parsedDate.atStartOfDay().toIso8601String(), equals("2010-12-23T00:00:00.000")));
 
   test("dateTime.isPast null", () => expect(null.isPast, isFalse));
   test("dateTime.isFuture null", () => expect(null.isFuture, isFalse));
@@ -377,8 +356,5 @@ void main() {
   test("dateTime.isFuture null", () => expect(null.isFuture, isFalse));
 
   test("dateTime.atStartOfDay null", () => expect(null.atStartOfDay(), isNull));
-  test(
-      "dateTime.isPast null",
-      () => expect(parsedDate.atStartOfDay().toIso8601String(),
-          equals("2010-12-23T00:00:00.000")));
+  test("dateTime.isPast null", () => expect(parsedDate.atStartOfDay().toIso8601String(), equals("2010-12-23T00:00:00.000")));
 }

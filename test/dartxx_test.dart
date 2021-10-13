@@ -1,5 +1,5 @@
 import 'package:dartxx/dartxx.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 void main() {
   group("map_ext", testMapExt);
@@ -41,8 +41,7 @@ void testMapExt() {
     };
     final filtered = map.valuesNotNull();
     expect(filtered.length, equals(4));
-    expect(filtered.keys,
-        containsAll(map.keys.where((element) => element != 'null')));
+    expect(filtered.keys, containsAll(map.keys.where((element) => element != 'null')));
   });
 
   test('test.whereValuesNotNull non-nullable', () {

@@ -1,8 +1,9 @@
 import 'package:dartxx/dartxx.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
+import 'package:test_api/backend.dart';
+import 'package:test_api/src/expect/util/pretty_print.dart';
 import 'package:test_api/src/frontend/async_matcher.dart';
-import 'package:test_api/src/frontend/format_stack_trace.dart';
-import 'package:test_api/src/utils.dart';
+import 'package:test_api/src/backend/stack_trace_formatter.dart';
 
 void main() {
   group("list_ext_test", () {
@@ -62,8 +63,7 @@ void main() {
 
       test("Iterable<T>.mapIndexed()", () {
         final list = <double>[0, 1, 2, 3, 4, 5, 6];
-        list.mapIndexed((item, index) =>
-            expect(item, equals(index), reason: "Index should match value"));
+        list.mapIndexed((item, index) => expect(item, equals(index), reason: "Index should match value"));
       });
 
       test("Iterable<T>.expandIndexed()", () {
@@ -72,14 +72,12 @@ void main() {
           [1, 1],
           [2, 2, 2]
         ];
-        final expandedByIndex =
-            list.expandIndexed((item, index) => item.map((element) {
-                  return MapEntry(element, index);
-                }));
+        final expandedByIndex = list.expandIndexed((item, index) => item.map((element) {
+              return MapEntry(element, index);
+            }));
         expect(expandedByIndex, hasLength(7));
         expandedByIndex.forEach((element) {
-          expect(element.key, equals(element.value),
-              reason: "Each array item should match the original index");
+          expect(element.key, equals(element.value), reason: "Each array item should match the original index");
         });
       });
 
@@ -226,22 +224,18 @@ void main() {
 
     group("Iterable<V?>", () {
       test("notNull()", () {
-        expect([1, null, 2, 3, 3, null].notNull(),
-            containsAllInOrder([1, 2, 3, 3]));
+        expect([1, null, 2, 3, 3, null].notNull(), containsAllInOrder([1, 2, 3, 3]));
       });
       test("notNullSet()", () {
-        expect([1, null, 2, 3, 3, null].notNullSet(),
-            containsAllInOrder([1, 2, 3]));
+        expect([1, null, 2, 3, 3, null].notNullSet(), containsAllInOrder([1, 2, 3]));
         expect([1, null, 2, 3, 3, null].notNullSet(), isA<Set<Object>>());
       });
       test("notNullList()", () {
-        expect([1, null, 2, 3, 3, null].notNullList(),
-            containsAllInOrder([1, 2, 3, 3]));
+        expect([1, null, 2, 3, 3, null].notNullList(), containsAllInOrder([1, 2, 3, 3]));
         expect([1, null, 2, 3, 3, null].notNullList(), isA<List<Object>>());
       });
       test("mapNotNull()", () {
-        expect([1, null, 2, 3, 3, null].mapNotNull((from) => "$from"),
-            containsAllInOrder(["1", "2", "3", "3"]));
+        expect([1, null, 2, 3, 3, null].mapNotNull((from) => "$from"), containsAllInOrder(["1", "2", "3", "3"]));
       });
     });
     group("Iterable<num>?", () {
@@ -266,8 +260,7 @@ void main() {
         final list = [3, 2, 4, 1, 5];
         final sort = list.sorted();
         expect(sort, containsAllInOrder([1, 2, 3, 4, 5]));
-        expect(list, containsAllInOrder([3, 2, 4, 1, 5]),
-            reason: "Original list should remain untouched");
+        expect(list, containsAllInOrder([3, 2, 4, 1, 5]), reason: "Original list should remain untouched");
       });
     });
   });
@@ -276,14 +269,12 @@ void main() {
     test("sortedUsing", () {
       final names = ["banana", "apple", "zebra", "cauliflower"];
       final idx = [1, 2, 3, 4];
-      expect(idx.sortedUsing((item) => names[item - 1]),
-          containsAllInOrder([2, 1, 4, 3]));
+      expect(idx.sortedUsing((item) => names[item - 1]), containsAllInOrder([2, 1, 4, 3]));
     });
     test("sortedBy", () {
       final names = ["banana", "apple", "zebra", "cauliflower"];
       final idx = [1, 2, 3, 4];
-      expect(idx.sortedBy((a, b) => names[a - 1].compareTo(names[b - 1])),
-          containsAllInOrder([2, 1, 4, 3]));
+      expect(idx.sortedBy((a, b) => names[a - 1].compareTo(names[b - 1])), containsAllInOrder([2, 1, 4, 3]));
     });
 
     test("uniqueBy", () {
@@ -351,8 +342,7 @@ void main() {
       final names = ["one", "two", "three", "four", "five"];
 
       final idx = [1, 2, 3, 4, 5];
-      expect(idx.joinWithAnd((idx) => names[idx - 1]),
-          equals("one, two, three, four, and five"));
+      expect(idx.joinWithAnd((idx) => names[idx - 1]), equals("one, two, three, four, and five"));
     });
 
     test("mapPos()", () {
@@ -400,31 +390,6 @@ void main() {
   });
 }
 
-// extension IterDblNullXX<T> on Iterable<T?>? {
-// double sumBy(double toDouble(T? t)) {
-// int sumByInt(int toDouble(T? t)) {
-// List<R> mapIndexed<R>(R mapper(T? item, int index)) {
-// List<R> expandIndexed<R>(Iterable<R> mapper(T? item, int index)) {
-// T? maxBy<R extends Comparable<R>>(R by(T? item), [T? ifNull]) {
-// T? minBy<R extends Comparable<R>>(R by(T? item), [T? ifNull]) {
-// List<T?> sortedBy([Comparator<T?>? compare]) {
-// List<T> sortedUsing(Comparable getter(T? item)) {
-// Iterable<T?> uniqueBy(dynamic uniqueProp(T? item)) {
-// Stream<T?> toStream() {
-// Stream<T> forEachAsync(FutureOr onEach(T? item)) async* {
-// void forEachIndexed<R>(R mapper(T? item, int index)) {
-// List<T?> truncate([int? length]) {
-// Iterable<T?> orEmpty() => this ?? <T>[];
-// List<T?> orEmptyList() => this?.toList() ?? <T>[];
-// List<R> mapNotNull<R>(R? mapper(T? item)) {
-// Iterable<R> mapPos<R>(R mapper(T? item, IterationPosition pos)) {
-// T? lastOrNull() => this?.lastWhere((_) => true, orElse: () => null);
-// T? firstOr([T? ifEmpty]) =>
-// this?.firstWhere((_) => true, orElse: () => ifEmpty);
-// extension IterIterXX<V> on Iterable<Iterable<V>> {
-// List<V> flatten();
-// }
-
 Matcher throwsWithMessage(Object message) => _ExceptionMessage(message);
 
 class _ExceptionMessage extends AsyncMatcher {
@@ -433,8 +398,7 @@ class _ExceptionMessage extends AsyncMatcher {
   const _ExceptionMessage(this._matcher);
 
   @override
-  Description describe(Description description) =>
-      description.add('error contains ').addDescriptionOf(_matcher);
+  Description describe(Description description) => description.add('error contains ').addDescriptionOf(_matcher);
 
   // Avoid async/await so we synchronously fail if we match a synchronous
   // function.
@@ -460,10 +424,18 @@ class _ExceptionMessage extends AsyncMatcher {
     }
   }
 
+  String formatFailure(Matcher expected, actual, String which, {String? reason}) {
+    var buffer = StringBuffer();
+    buffer.writeln(indent(prettyPrint(expected), first: 'Expected: '));
+    buffer.writeln(indent(prettyPrint(actual), first: '  Actual: '));
+    if (which.isNotEmpty) buffer.writeln(indent(which, first: '   Which: '));
+    if (reason != null) buffer.writeln(reason);
+    return buffer.toString();
+  }
+
   /// Matches [future], using try/catch since `onError` doesn't seem to work
   /// properly in nnbd.
-  Future<String?> _matchFuture(
-      Future<dynamic> future, String messagePrefix) async {
+  Future<String?> _matchFuture(Future<dynamic> future, String messagePrefix) async {
     try {
       var value = await future;
       return indent(prettyPrint(value), first: messagePrefix);
@@ -482,13 +454,10 @@ class _ExceptionMessage extends AsyncMatcher {
     final _m = _matcher;
     if (_m is Matcher) {
       if (_m.matches(error, matchState)) return null;
-      var result = _m
-          .describeMismatch(error, StringDescription(), matchState, false)
-          .toString();
+      var result = _m.describeMismatch(error, StringDescription(), matchState, false).toString();
       buffer.writeln(indent(prettyPrint(error), first: 'threw '));
       if (trace != null) {
-        buffer.writeln(
-            indent(formatStackTrace(trace).toString(), first: 'stack '));
+        buffer.writeln(indent(StackTraceFormatter.current!.formatStackTrace(trace).toString(), first: 'stack '));
       }
       if (result.isNotEmpty) buffer.writeln(indent(result, first: 'which '));
     } else {

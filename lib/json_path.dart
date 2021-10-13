@@ -5,17 +5,30 @@ import 'm_literal.dart';
 ///
 /// [T] represents the type of data expected at this pointer
 class JsonPath<T> extends MLiteral<String> {
-  final List<String> segments;
-  final String path;
+  final List<String>? _segments;
+  final String? _single;
+  List<String> get segments => _segments ?? [_single!];
 
-  const JsonPath._(this.segments, this.path) : super(path);
+  String get path => value;
 
-  const JsonPath.internal(this.segments, this.path) : super(path);
+  const JsonPath._(this._segments, String path)
+      : _single = null,
+        super(path);
+
+  const JsonPath.single(String single)
+      : _segments = null,
+        _single = single,
+        super('/$single');
+
+  const JsonPath.internal(this._segments, String path)
+      : _single = null,
+        super(path);
+
   static const Root = JsonPath._([], "/");
 
   const JsonPath.root()
-      : segments = const [],
-        path = "/",
+      : _segments = const [],
+        _single = null,
         super("/");
 
   JsonPath.segments(List<String> segments) : this._(List.unmodifiable(segments), _toPathName(segments));
@@ -49,12 +62,12 @@ class JsonPath<T> extends MLiteral<String> {
   }
 
   /// The last segment in the path
-  String get last => segments.last;
+  String get last => _single ?? _segments!.last;
 
   /// The first segment in the path
-  String get first => segments.first;
+  String get first => _single ?? _segments!.first;
 
-  int get length => segments.length;
+  int get length => _single != null ? 1 : _segments!.length;
 
   /// Whether this path starts with another [JsonPath] instance.
   bool startsWith(JsonPath otherPath) {
@@ -85,7 +98,7 @@ class JsonPath<T> extends MLiteral<String> {
   }
 
   dynamic operator [](int index) {
-    return segments[index];
+    return _single != null && index == 0 ? _single : segments[index];
   }
 
   @override
@@ -94,21 +107,21 @@ class JsonPath<T> extends MLiteral<String> {
   dynamic toJson() => path;
 
   String toKey() {
-    return segments.map((s) => s.capitalize()).join().uncapitalize();
+    return _single ?? segments.map((s) => s.capitalize()).join().uncapitalize();
   }
 }
 
 List<String> _parsePath(String? path) {
-  if (path == null) return [];
+  if (path == null) return const [];
   if (path.startsWith("/")) path = path.substring(1);
-  return [...path.split("/")];
+  return [...path.split("/").whereNotBlank()];
 }
 
 String _toPathName(Iterable<String> segments) => "/" + segments.join("/");
 
 extension JsonPathOperatorNullExtensions<T> on JsonPath<T>? {
   JsonPath<T> get self => this ?? const JsonPath.root();
-  bool get isNullOrRoot => this == null || this!.segments.isEmpty;
+  bool get isNullOrRoot => this == null || this!._segments?.isEmpty == true;
 }
 
 extension JsonPathOperatorExtensions<T> on JsonPath<T> {
@@ -121,10 +134,10 @@ extension JsonPathOperatorExtensions<T> on JsonPath<T> {
   }
 
   /// Whether this path is empty, eg "/"
-  bool get isEmpty => segments.isNotEmpty != true;
+  bool get isEmpty => _segments?.isEmpty == true;
 
   JsonPath<T> get verifyNotRoot => isNotRoot ? this : throw Exception("Expected ${this} to not be root");
-  bool get isNotRoot => self.segments.isNotEmpty;
+  bool get isNotRoot => _single != null || self._segments?.isNotEmpty == true;
 
   JsonPath<TT> plus<TT>(JsonPath<TT> path) {
     final self = this.self;

@@ -1,5 +1,5 @@
 import 'package:dartxx/dartxx.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
 
 void main() {
   test('test.hashOfAll20', () {
@@ -76,10 +76,7 @@ class CustomerHasher {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CustomerHasher &&
-          runtimeType == other.runtimeType &&
-          name == other.name &&
-          age == other.age;
+      other is CustomerHasher && runtimeType == other.runtimeType && name == other.name && age == other.age;
 
   @override
   int get hashCode => name.hashCode ^ age.hashCode;
