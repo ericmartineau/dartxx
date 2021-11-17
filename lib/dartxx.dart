@@ -1,5 +1,6 @@
 library dartxx;
 
+export 'disposable.dart';
 export 'hash_of.dart';
 export 'json_path.dart';
 export 'lang_ext.dart';
