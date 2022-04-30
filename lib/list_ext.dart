@@ -18,13 +18,19 @@ extension IterationPositionExtensions on IterationPosition {
 
   bool get isFirst =>
       this == IterationPosition.first || this == IterationPosition.only;
+
+  bool get hasNext => this.isNotLast && this.isNotOnly;
+
+  bool get isOnly => this == IterationPosition.only;
+  bool get isNotOnly => !isOnly;
 }
 
 extension IterObjXX<T extends Object> on Iterable<T> {}
 
 extension IterDynXX<T> on Iterable<T> {
   Iterable<ListIndex<T>> indexed() {
-    return this.mapIndexed(((T item, int idx) => ListIndex<T>(idx, item)));
+    return this.mapIndexed(
+        ((T item, int idx) => ListIndex<T>(idx, item, this.length)));
   }
 
   List<T> freeze() {
@@ -147,6 +153,29 @@ extension IterDynXX<T> on Iterable<T> {
         i++;
         return mapper(
             item,
+            isSingle
+                ? IterationPosition.only
+                : _i == 0
+                    ? IterationPosition.first
+                    : _i == length - 1
+                        ? IterationPosition.last
+                        : IterationPosition.middle);
+      })
+    ];
+  }
+
+  Iterable<R> mapPosIndex<R>(
+      R mapper(T item, int index, IterationPosition pos)) {
+    int i = 0;
+    final length = this.length;
+    final isSingle = length == 1;
+    return [
+      ...this.map((T item) {
+        final _i = i;
+        i++;
+        return mapper(
+            item,
+            _i,
             isSingle
                 ? IterationPosition.only
                 : _i == 0
@@ -356,8 +385,19 @@ extension IterMapEntryXX<K, V> on Iterable<MapEntry<K, V>> {
 }
 
 class ListIndex<T> {
+  final int size;
   final int index;
   final T value;
 
-  const ListIndex(this.index, this.value);
+  const ListIndex(this.index, this.value, this.size);
+
+  IterationPosition get position {
+    return size == 1
+        ? IterationPosition.only
+        : index == 0
+            ? IterationPosition.first
+            : index == size - 1
+                ? IterationPosition.last
+                : IterationPosition.middle;
+  }
 }
