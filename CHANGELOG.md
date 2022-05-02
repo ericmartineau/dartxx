@@ -1,3 +1,7 @@
+## 0.5.5-dev.0
+
+ - **FEAT**: bumping version.
+
 ## [0.5.0+2]
  * Minor version bump
 
