@@ -146,6 +146,10 @@ extension NumXXNullable on num? {
     return (this! * other).toDouble();
   }
 
+  num orZero() {
+    return this == null ? 0.0 : this!;
+  }
+
   bool get isGreaterThan0 {
     return this != null && this! > 0;
   }

@@ -1,3 +1,33 @@
+## 0.5.5-dev.6
+
+ - **FEAT**: prep for melos release.
+ - **FEAT**: bumping version.
+
+## 0.5.5-dev.5
+
+ - **FEAT**: prep for melos release.
+ - **FEAT**: bumping version.
+
+## 0.5.5-dev.4
+
+ - **FEAT**: prep for melos release.
+ - **FEAT**: bumping version.
+
+## 0.5.5-dev.3
+
+ - **FEAT**: prep for melos release.
+ - **FEAT**: bumping version.
+
+## 0.5.5-dev.2
+
+ - **FEAT**: prep for melos release.
+ - **FEAT**: bumping version.
+
+## 0.5.5-dev.1
+
+ - **FEAT**: prep for melos release.
+ - **FEAT**: bumping version.
+
 ## 0.5.5-dev.0
 
  - **FEAT**: bumping version.

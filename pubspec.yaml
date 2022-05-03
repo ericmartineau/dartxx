@@ -1,7 +1,7 @@
 name: dartxx
-version: 0.5.5-dev.0
-description: A new Flutter package project.
-repository: https://github.com:ericmartineau/dartxx
+version: 0.5.5-dev.6
+description: Core utilities with minimal dependencies.
+repository: https://github.com/ericmartineau/dartxx.git
 environment: 
   sdk: '>=2.16.0 <3.0.0'
 dependencies: 
