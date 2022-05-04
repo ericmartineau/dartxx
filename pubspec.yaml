@@ -1,5 +1,5 @@
 name: dartxx
-version: 0.5.5-dev.6
+version: 0.5.5
 description: Core utilities with minimal dependencies.
 repository: https://github.com/ericmartineau/dartxx.git
 environment: 
