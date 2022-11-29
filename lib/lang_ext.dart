@@ -21,7 +21,7 @@ class _Numbers {
   }
 }
 
-extension TypeExtensions on Type {
+extension TypeLangExtensions on Type {
   String get name => "$this"
       .trimAround("_")
       .replaceAllMapped(
