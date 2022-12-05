@@ -5,10 +5,13 @@ typedef Disposer = FutureOr Function();
 abstract class HasDisposers {
   void registerDisposer(FutureOr dispose());
   void removeDisposer(FutureOr dispose());
+  bool get isDisposing;
 }
 
 mixin Disposable implements HasDisposers {
   List<Disposer>? _disposers;
+  bool _isDisposing=false;
+  bool get isDisposing => _isDisposing;
 
   void registerSubscription(StreamSubscription? subscription) {
     if (subscription != null) {
@@ -34,10 +37,13 @@ mixin Disposable implements HasDisposers {
   }
 
   Future disposeAll() async {
-    final copy = [...?_disposers];
-    _disposers?.clear();
-    for (final disposer in copy) {
-      await disposer.call();
+    if(!_isDisposing) {
+      _isDisposing = true;
+      final copy = [...?_disposers];
+      _disposers?.clear();
+      for (final disposer in copy) {
+        await disposer.call();
+      }
     }
   }
 }
