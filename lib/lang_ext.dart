@@ -22,11 +22,12 @@ class _Numbers {
 }
 
 extension TypeLangExtensions on Type {
-  String get name => "$this"
-      .trimAround("_")
-      .replaceAllMapped(
+  String get name =>
+      "$this"
+          .trimAround("_")
+          .replaceAllMapped(
           typeParameters, (match) => "[${match.group(1)!.uncapitalize()}]")
-      .uncapitalize();
+          .uncapitalize();
 
   String get simpleName => simpleNameOfType(this);
 }
@@ -171,7 +172,7 @@ List<String> tokenizeString(String? input,
 
 final upToLastDot = RegExp('.*\\.');
 final aggresiveTokenizer =
-    Tokenizer(delimiters: {",", "/", "_", '.', '-', ' ', '\t', '\n'});
+Tokenizer(delimiters: {",", "/", "_", '.', '-', ' ', '\t', '\n'});
 
 final spaceTokenizer = Tokenizer();
 
@@ -192,16 +193,24 @@ final typeParameters = RegExp("<(.*)>");
 final newLinesPattern = RegExp("\\n");
 
 extension StringXX on String {
+  bool equalsIgnoreCase(other) {
+    return this.toLowerCase() == other?.toString()?.toLowerCase();
+  }
+
   String removeNewlines() => removeAll(newLinesPattern);
 
   String removeAll(Pattern pattern) => this.replaceAll(pattern, "");
 
   bool get isNotBlank {
-    return this.trim().isNotEmpty;
+    return this
+        .trim()
+        .isNotEmpty;
   }
 
   bool get isBlank {
-    return this.trim().isEmpty;
+    return this
+        .trim()
+        .isEmpty;
   }
 
   bool get isNumeric => (num.tryParse(this) != null);
@@ -213,6 +222,23 @@ extension StringXX on String {
   String? get first {
     if (this.isNotEmpty) return this[0];
     return null;
+  }
+
+  List<int> indexesOf(String searchTerm, {bool caseSensitive=false}) {
+    var searchStr = caseSensitive ? this : this.toLowerCase();
+    var query = caseSensitive ? searchTerm : searchTerm.toLowerCase();
+
+    int idx = searchStr.indexOf(query);
+    var res = <int>[];
+    while (idx > -1) {
+      res.add(idx);
+      idx = searchStr.indexOf(
+        query,
+        idx + 1,
+      );
+    }
+
+    return res;
   }
 
   String pluralizeIf(bool condition) {
@@ -254,8 +280,8 @@ extension StringXX on String {
 
   String trimAround(dynamic characters,
       {bool trimStart = true,
-      bool trimEnd = true,
-      bool trimWhitespace = true}) {
+        bool trimEnd = true,
+        bool trimWhitespace = true}) {
     final target = this;
     var manipulated = target;
     if (trimWhitespace) {
@@ -294,7 +320,9 @@ extension StringNullableXX on String? {
     if (this == null) return const [];
     return [
       for (final word in this!.split(wordSeparator))
-        if (word.trim().isNotNullOrBlank) word,
+        if (word
+            .trim()
+            .isNotNullOrBlank) word,
     ];
   }
 
@@ -411,7 +439,15 @@ extension StringNullableXX on String? {
 
 extension DateTimeXX on DateTime {
   DateTime withoutTime() =>
-      DateTime(this.year, this.month, this.day, 0, 0, 0, 0, 0);
+      DateTime(
+          this.year,
+          this.month,
+          this.day,
+          0,
+          0,
+          0,
+          0,
+          0);
 
   Duration sinceNow() => -(this.difference(DateTime.now()));
 
@@ -431,9 +467,9 @@ extension DateTimeXX on DateTime {
 
   bool get hasTime =>
       this.second != 0 ||
-      this.minute != 0 ||
-      this.hour != 0 ||
-      this.millisecond != 0;
+          this.minute != 0 ||
+          this.hour != 0 ||
+          this.millisecond != 0;
 
   DateTime atStartOfDay() {
     final t = this;
@@ -470,4 +506,11 @@ extension DateTimeNullableXX on DateTime? {
     if (t == null) return null;
     return DateTime(t.year, t.month, t.day, hour, minute, second);
   }
+}
+
+extension ListOfIterableExt on Iterable<bool> {
+  bool anyTrue() => any((e) => e);
+  bool allTrue() => every((e) => e);
+  bool allFalse() => every((e) => !e);
+  bool anyFalse() => any((e) => !e);
 }

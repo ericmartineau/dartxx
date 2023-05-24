@@ -69,6 +69,11 @@ class Debouncer implements Limiter {
 
   Timer? timer;
 
+  void close() {
+    timer?.cancel();
+    timer = null;
+  }
+  
   @override
   void limit([callback]) => debounce(callback);
 
